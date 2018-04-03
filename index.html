@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Hello, world!</title>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+</head>
+<body>
+
+
+<section class="hero is-primary is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Your Personal Token
+      </h1>
+      <h2 class="subtitle">
+        Create your personal ERC20 token in seconds
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="field">
+    <label class="label">Name</label>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <input class="input" type="text" placeholder="" id="name">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Symbol</label>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <input class="input" type="text" placeholder="" id="symbol">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Owner</label>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <input class="input" type="text" placeholder="" id="owner">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Total Supply</label>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <input class="input" type="number" placeholder="" id="totalSupply">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="button is-primary" onclick="deploy()">Deploy</button>
+
+</section>
+<section class="section">
+  <div id="result"></div>
+</section>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="application/javascript" src="./web3.min.js"></script>
+<script type="application/javascript" src="./main.js"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+</body>
+</html>
