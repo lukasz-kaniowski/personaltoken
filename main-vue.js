@@ -3,20 +3,20 @@ const app3 = new Vue({
   data: {
     hasResult: false,
     result: null,
-    owner: null,
     name: null,
     symbol: null,
     totalSupply: null,
   },
   methods: {
     deploy: function () {
-      var self = this;
+      const self = this;
       let decimalPlaces = 18;
-      _deploy('1000000000', this.symbol, this.name, this.totalSupply * Math.pow(10, decimalPlaces), this.owner)
-        .then(function (contract) {
-          self.result = `Deployed to ${contract.options.address}`;
-          self.hasResult = true;
-        })
+      web3.eth.getAccounts().then((accounts) =>
+        _deploy('1000000000', this.symbol, this.name, this.totalSupply * Math.pow(10, decimalPlaces), accounts[0])
+      ).then(function (contract) {
+        self.result = `Deployed to ${contract.options.address}`;
+        self.hasResult = true;
+      })
 
     }
   },
@@ -27,7 +27,6 @@ const app3 = new Vue({
       // set the provider you want from Web3.providers
       web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
     }
-    web3.eth.getAccounts().then((accounts) => this.owner = accounts[0])
   }
 });
 
