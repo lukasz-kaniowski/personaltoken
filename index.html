@@ -32,7 +32,8 @@
       <div class="field-body">
         <div class="field">
           <div class="control">
-            <input class="input" type="text" placeholder="" id="name" v-model="name">
+            <input class="input" type="text" placeholder="" id="name" v-model="name"
+                   :class="{'input': true, 'is-danger': errors.includes('name') }" >
           </div>
         </div>
       </div>
@@ -42,7 +43,8 @@
       <div class="field-body">
         <div class="field">
           <div class="control">
-            <input class="input" type="text" placeholder="" id="symbol" v-model="symbol">
+            <input class="input" type="text" placeholder="" id="symbol" v-model="symbol"
+                   :class="{'input': true, 'is-danger': errors.includes('symbol') }" >
           </div>
         </div>
       </div>
@@ -53,7 +55,8 @@
       <div class="field-body">
         <div class="field">
           <div class="control">
-            <input class="input" type="number" placeholder="" id="totalSupply" v-model="totalSupply">
+            <input class="input" type="number" placeholder="" id="totalSupply" v-model="totalSupply"
+                   :class="{'input': true, 'is-danger': errors.includes('totalSupply') }" >
           </div>
         </div>
       </div>

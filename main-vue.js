@@ -6,9 +6,13 @@ const app3 = new Vue({
     name: null,
     symbol: null,
     totalSupply: null,
+    errors: []
   },
   methods: {
     deploy: function () {
+      this.errors = _validate(this);
+      if (this.errors.length > 0) return;
+
       const self = this;
       let decimalPlaces = 18;
       web3.eth.getAccounts().then((accounts) =>
@@ -30,6 +34,13 @@ const app3 = new Vue({
   }
 });
 
+function _validate({ name, symbol, totalSupply }) {
+  const errors = [];
+  if (!name) errors.push('name');
+  if (!symbol) errors.push('symbol');
+  if (!totalSupply) errors.push('totalSupply');
+  return errors;
+}
 
 function _deploy(gasPrice, symbol, name, totalSupply, owner) {
   const contractPrototype = {
