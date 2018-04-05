@@ -16,7 +16,7 @@ const app3 = new Vue({
       const self = this;
       let decimalPlaces = 18;
       web3.eth.getAccounts().then((accounts) =>
-        _deploy('1000000000', this.symbol, this.name, this.totalSupply * Math.pow(10, decimalPlaces), accounts[0])
+        _deploy('1000000000', this.symbol, this.name, `${this.totalSupply}000000000000000000` , accounts[0])
       ).then(function (contract) {
         self.result = `Deployed to ${contract.options.address}`;
         self.hasResult = true;
