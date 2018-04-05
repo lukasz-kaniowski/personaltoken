@@ -24,60 +24,64 @@
   </div>
 </section>
 
-<section class="section">
-  <div class="field">
-    <label class="label">Name</label>
-    <div class="field-body">
-      <div class="field">
-        <div class="control">
-          <input class="input" type="text" placeholder="" id="name">
+<div id="app">
+
+  <section class="section">
+    <div class="field">
+      <label class="label">Name</label>
+      <div class="field-body">
+        <div class="field">
+          <div class="control">
+            <input class="input" type="text" placeholder="" id="name" v-model="name">
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="field">
-    <label class="label">Symbol</label>
-    <div class="field-body">
-      <div class="field">
-        <div class="control">
-          <input class="input" type="text" placeholder="" id="symbol">
+    <div class="field">
+      <label class="label">Symbol</label>
+      <div class="field-body">
+        <div class="field">
+          <div class="control">
+            <input class="input" type="text" placeholder="" id="symbol" v-model="symbol">
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="field">
-    <label class="label">Owner</label>
-    <div class="field-body">
-      <div class="field">
-        <div class="control">
-          <input class="input" type="text" placeholder="" id="owner">
+    <div class="field">
+      <label class="label">Owner</label>
+      <div class="field-body">
+        <div class="field">
+          <div class="control">
+            <input class="input" type="text" placeholder="" id="owner" v-model="owner">
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="field">
-    <label class="label">Total Supply</label>
-    <div class="field-body">
-      <div class="field">
-        <div class="control">
-          <input class="input" type="number" placeholder="" id="totalSupply">
+    <div class="field">
+      <label class="label">Total Supply</label>
+      <div class="field-body">
+        <div class="field">
+          <div class="control">
+            <input class="input" type="number" placeholder="" id="totalSupply" v-model="totalSupply">
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <button class="button is-primary" onclick="deploy()">Deploy</button>
+    <button class="button is-primary" v-on:click="deploy">Deploy</button>
 
-</section>
-<section class="section">
-  <div id="result"></div>
-</section>
+  </section>
+  <section class="section" v-if="hasResult">
+    <p>
+      {{result}}
+    </p>
+  </section>
+</div>
 
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script type="application/javascript" src="./web3.min.js"></script>
-<script type="application/javascript" src="./main.js"></script>
+<script type="application/javascript" src="./main-vue.js"></script>
 <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 
 
