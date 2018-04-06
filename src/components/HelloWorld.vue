@@ -49,6 +49,8 @@
 </template>
 
 <script>
+  import Web3 from 'web3';
+
   export default {
     name: 'HelloWorld',
     data() {
@@ -67,7 +69,6 @@
         if (this.errors.length > 0) return;
 
         const self = this;
-        let decimalPlaces = 18;
         web3.eth.getAccounts().then((accounts) =>
           _deploy('1000000000', this.symbol, this.name, `${this.totalSupply}000000000000000000`, accounts[0])
         ).then(function (contract) {
