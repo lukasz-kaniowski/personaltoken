@@ -1,82 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width">
-  <title>My personal token</title>
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
-
-</head>
-<body>
-
-
-<section class="hero is-primary is-bold">
-  <div class="hero-body">
-    <div class="container">
-      <h1 class="title">
-        Your Personal Token
-      </h1>
-      <h2 class="subtitle">
-        Create your personal ERC20 token in seconds
-      </h2>
-    </div>
-  </div>
-</section>
-
-<div id="app">
-
-  <section class="section">
-    <div class="field">
-      <label class="label">Name</label>
-      <div class="field-body">
-        <div class="field">
-          <div class="control">
-            <input class="input" type="text" placeholder="" id="name" v-model="name"
-                   :class="{'input': true, 'is-danger': errors.includes('name') }" >
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="field">
-      <label class="label">Symbol</label>
-      <div class="field-body">
-        <div class="field">
-          <div class="control">
-            <input class="input" type="text" placeholder="" id="symbol" v-model="symbol"
-                   :class="{'input': true, 'is-danger': errors.includes('symbol') }" >
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="field">
-      <label class="label">Total Supply</label>
-      <div class="field-body">
-        <div class="field">
-          <div class="control">
-            <input class="input" type="number" placeholder="" id="totalSupply" v-model="totalSupply"
-                   :class="{'input': true, 'is-danger': errors.includes('totalSupply') }" >
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <button class="button is-primary" v-on:click="deploy">Deploy</button>
-
-  </section>
-  <section class="section" v-if="hasResult">
-    <p>
-      {{result}}
-    </p>
-  </section>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script type="application/javascript" src="./web3.min.js"></script>
-<script type="application/javascript" src="./main-vue.js"></script>
-<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-
-
-</body>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>my-personal-token</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
 </html>
