@@ -1,41 +1,15 @@
 <template>
   <div>
     <section class="section">
-      <div class="field">
-        <label class="label">Name</label>
-        <div class="field-body">
-          <div class="field">
-            <div class="control">
-              <input class="input" type="text" placeholder="" id="name" v-model="name"
-                     :class="{'input': true, 'is-danger': errors.includes('name') }">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="field">
-        <label class="label">Symbol</label>
-        <div class="field-body">
-          <div class="field">
-            <div class="control">
-              <input class="input" type="text" placeholder="" id="symbol" v-model="symbol"
-                     :class="{'input': true, 'is-danger': errors.includes('symbol') }">
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="field">
-        <label class="label">Total Supply</label>
-        <div class="field-body">
-          <div class="field">
-            <div class="control">
-              <input class="input" type="number" placeholder="" id="totalSupply"
-                     v-model="totalSupply"
-                     :class="{'input': true, 'is-danger': errors.includes('totalSupply') }">
-            </div>
-          </div>
-        </div>
-      </div>
+      <Field name="name" :model="name" :errors="errors" type="text" label="Name"
+             v-on:input="(val) => this.name = val"/>
+
+      <Field name="symbol" :model="symbol" :errors="errors" type="text" label="Symbol"
+             v-on:input="(val) => this.symbol = val"/>
+
+      <Field name="totalSupply" :model="totalSupply" :errors="errors" type="number" label="Total Supply"
+       v-on:input="(val) => this.totalSupply = val"/>
 
       <button class="button is-primary" v-on:click="deploy">Deploy</button>
 
@@ -51,9 +25,13 @@
 <script>
   import Web3 from 'web3';
   import contractPrototype from '../data/contract';
+  import Field from './Field';
 
   export default {
-    name: 'HelloWorld',
+    name: 'Token',
+    components: {
+      Field
+    },
     data() {
       return {
         hasResult: false,
@@ -121,21 +99,4 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  h1, h2 {
-    font-weight: normal;
-  }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
-
-  a {
-    color: #42b983;
-  }
 </style>
