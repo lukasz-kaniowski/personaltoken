@@ -2,11 +2,11 @@
   <div>
     <section class="section">
       <form-wizard finishButtonText="Create Token" class="box">
-        <tab-content title="Check for Metamask">
-          <MetamaskDetector></MetamaskDetector>
+        <tab-content title="Metamask">
+          <MetamaskDetector/>
         </tab-content>
-        <tab-content title="Additional Info">
-          My second tab content
+        <tab-content title="Network">
+          <NetworkAndAccount/>
         </tab-content>
 
         <tab-content title="Create token">
@@ -39,11 +39,12 @@
   import contractPrototype from '../data/contract';
   import Field from './Field';
   import MetamaskDetector from './MetamaskDetector';
+  import NetworkAndAccount from './NetworkAndAccount';
 
   export default {
     name: 'Token',
     components: {
-      Field, MetamaskDetector
+      Field, MetamaskDetector, NetworkAndAccount
     },
     data() {
       return {

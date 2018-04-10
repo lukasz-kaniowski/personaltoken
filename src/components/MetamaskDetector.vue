@@ -34,8 +34,6 @@
       if (typeof web3 !== 'undefined') {
         web3 = new Web3(web3.currentProvider);
         this.metamaskDetected = true
-        web3.eth.net.getNetworkType().then(network => this.network = network)
-
       } else {
         this.metamaskDetected = false
       }
