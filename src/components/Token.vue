@@ -1,17 +1,29 @@
 <template>
   <div>
     <section class="section">
+      <form-wizard finishButtonText="Create Token" class="box">
+        <tab-content title="Check for Metamask">
+          <MetamaskDetector></MetamaskDetector>
+        </tab-content>
+        <tab-content title="Additional Info">
+          My second tab content
+        </tab-content>
 
-      <Field name="name" :model="name" :errors="errors" type="text" label="Name"
-             v-on:input="(val) => this.name = val"/>
+        <tab-content title="Create token">
+          <Field name="name" :model="name" :errors="errors" type="text" label="Name"
+                 v-on:input="(val) => this.name = val"/>
 
-      <Field name="symbol" :model="symbol" :errors="errors" type="text" label="Symbol"
-             v-on:input="(val) => this.symbol = val"/>
+          <Field name="symbol" :model="symbol" :errors="errors" type="text" label="Symbol"
+                 v-on:input="(val) => this.symbol = val"/>
 
-      <Field name="totalSupply" :model="totalSupply" :errors="errors" type="number" label="Total Supply"
-       v-on:input="(val) => this.totalSupply = val"/>
+          <Field name="totalSupply" :model="totalSupply" :errors="errors" type="number"
+                 label="Total Supply"
+                 v-on:input="(val) => this.totalSupply = val"/>
 
-      <button class="button is-primary" v-on:click="deploy">Deploy</button>
+          <button class="button is-primary" v-on:click="deploy">Deploy</button>
+        </tab-content>
+      </form-wizard>
+
 
     </section>
     <section class="section" v-if="hasResult">
@@ -26,11 +38,12 @@
   import Web3 from 'web3';
   import contractPrototype from '../data/contract';
   import Field from './Field';
+  import MetamaskDetector from './MetamaskDetector';
 
   export default {
     name: 'Token',
     components: {
-      Field
+      Field, MetamaskDetector
     },
     data() {
       return {

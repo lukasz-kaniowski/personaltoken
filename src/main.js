@@ -3,9 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VueFormWizard from 'vue-form-wizard'
 
 // Require the main Sass manifest file
 require('./assets/sass/main.scss');
+
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+Vue.use(VueFormWizard)
 
 Vue.config.productionTip = false
 
