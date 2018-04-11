@@ -10,6 +10,7 @@
                                v-on:accountRefreshed="account => this.eth = account"/>
           </tab-content>
           <tab-content title="Token info" :before-change="validate">
+            <Errors :errors="errors.token"/>
             <Field name="name" :model="name" :error="errors.token.name" type="text" label="Name"
                    v-on:input="(val) => this.name = val"/>
 
@@ -81,7 +82,7 @@
       validateNetwork: function () {
         this.errors.network = {};
         if (this.eth.balance <= 0.01) this.errors.network.balance = 'Balance need to be higher then 0.01 ETH'
-        if (!this.eth.network) this.errors.network.network = 'No ethereum network detected. Check your Metamask'
+        if (!this.eth.network) this.errors.network.network = 'No ethereum network detected.'
         return Object.keys(this.errors.network).length === 0
       },
 
