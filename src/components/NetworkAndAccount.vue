@@ -27,10 +27,13 @@
     methods: {
       fetchAccount() {
         web3.eth.net.getNetworkType().then(network => this.network = network)
-        web3.eth.getAccounts().then(accounts => {
-          this.account = accounts[0];
-          return web3.eth.getBalance(this.account);
-        }).then(balance => this.balance = web3.utils.fromWei(balance))
+        web3.eth.getAccounts()
+          .then(accounts => {
+            this.account = accounts[0];
+            return web3.eth.getBalance(this.account);
+          })
+          .then(balance => this.balance = web3.utils.fromWei(balance))
+          .then(() => this.$emit('accountRefreshed', this.$data))
       },
     },
     computed: {
@@ -48,7 +51,7 @@
 
   }
 </script>
-<style>
+<style scoped>
   .medium-image {
     width: 300px;
     /*text-align: center;*/

@@ -1,35 +1,41 @@
 <template>
   <div>
     <section class="section">
-      <form-wizard finishButtonText="Create Token" class="box">
-        <tab-content title="Metamask">
-          <MetamaskDetector/>
-        </tab-content>
-        <tab-content title="Network">
-          <NetworkAndAccount/>
-        </tab-content>
+      <div class="container">
+        <form-wizard finishButtonText="Create Token" class="box" @on-complete="deploy">
+          <tab-content title="Metamask and Network" :before-change="validateNetwork">
+            <Errors :errors="errors.network"/>
+            <MetamaskDetector v-on:detected="(isDetected) => this.metamaskDetected = isDetected"/>
+            <NetworkAndAccount v-if="showNetworkInfo"
+                               v-on:accountRefreshed="account => this.eth = account"/>
+          </tab-content>
+          <tab-content title="Token info" :before-change="validate">
+            <Field name="name" :model="name" :error="errors.token.name" type="text" label="Name"
+                   v-on:input="(val) => this.name = val"/>
 
-        <tab-content title="Create token">
-          <Field name="name" :model="name" :errors="errors" type="text" label="Name"
-                 v-on:input="(val) => this.name = val"/>
+            <Field name="symbol" :model="symbol" :error="errors.token.symbol" type="text"
+                   label="Symbol"
+                   v-on:input="(val) => this.symbol = val"/>
 
-          <Field name="symbol" :model="symbol" :errors="errors" type="text" label="Symbol"
-                 v-on:input="(val) => this.symbol = val"/>
+            <Field name="totalSupply" :model="totalSupply" :error="errors.token.totalSupply"
+                   type="number"
+                   label="Total Supply"
+                   v-on:input="(val) => this.totalSupply = val"/>
 
-          <Field name="totalSupply" :model="totalSupply" :errors="errors" type="number"
-                 label="Total Supply"
-                 v-on:input="(val) => this.totalSupply = val"/>
+          </tab-content>
+          <tab-content title="Create token">
+            Info about
+            <ul>
+              <li>Token to be created</li>
+              <li>gas price</li>
+            </ul>
+          </tab-content>
+        </form-wizard>
 
-          <button class="button is-primary" v-on:click="deploy">Deploy</button>
-        </tab-content>
-      </form-wizard>
-
-
-    </section>
-    <section class="section" v-if="hasResult">
-      <p>
-        {{result}}
-      </p>
+        <p v-if="hasResult">
+          {{result}}
+        </p>
+      </div>
     </section>
   </div>
 </template>
@@ -40,11 +46,12 @@
   import Field from './Field';
   import MetamaskDetector from './MetamaskDetector';
   import NetworkAndAccount from './NetworkAndAccount';
+  import Errors from './Errors';
 
   export default {
     name: 'Token',
     components: {
-      Field, MetamaskDetector, NetworkAndAccount
+      Field, MetamaskDetector, NetworkAndAccount, Errors
     },
     data() {
       return {
@@ -53,14 +60,32 @@
         name: null,
         symbol: null,
         totalSupply: null,
-        errors: []
+        errors: {
+          network: {},
+          token: {}
+        },
+        eth: [],
+        metamaskDetected: false
+      }
+    },
+    computed: {
+      showNetworkInfo: function () {
+        return this.metamaskDetected;
       }
     },
     methods: {
-      deploy: function () {
-        this.errors = _validate(this);
-        if (this.errors.length > 0) return;
+      validate: function () {
+        this.errors.token = _validate(this);
+        return Object.keys(this.errors.token).length === 0
+      },
+      validateNetwork: function () {
+        this.errors.network = {};
+        if (this.eth.balance <= 0.01) this.errors.network.balance = 'Balance need to be higher then 0.01 ETH'
+        if (!this.eth.network) this.errors.network.network = 'No ethereum network detected. Check your Metamask'
+        return Object.keys(this.errors.network).length === 0
+      },
 
+      deploy: function () {
         const self = this;
         web3.eth.getAccounts().then((accounts) =>
           _deploy('1000000000', this.symbol, this.name, `${this.totalSupply}000000000000000000`, accounts[0])
@@ -82,10 +107,10 @@
   }
 
   function _validate({ name, symbol, totalSupply }) {
-    const errors = [];
-    if (!name) errors.push('name');
-    if (!symbol) errors.push('symbol');
-    if (!totalSupply) errors.push('totalSupply');
+    const errors = {};
+    if (!name) errors.name = 'Name is required'
+    if (!symbol) errors.symbol = 'Symbol is required'
+    if (!totalSupply) errors.totalSupply = 'Total supply is required'
     return errors;
   }
 
