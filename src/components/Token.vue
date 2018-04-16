@@ -9,7 +9,7 @@
             <NetworkAndAccount v-if="showNetworkInfo"
                                v-on:accountRefreshed="account => this.eth = account"/>
           </tab-content>
-          <tab-content title="Token info" :before-change="validate">
+          <tab-content title="Token info" :before-change="validateToken">
             <Errors :errors="errors.token"/>
             <Field name="name" :model="name" :error="errors.token.name" type="text" label="Name"
                    v-on:input="(val) => this.name = val"/>
@@ -25,6 +25,10 @@
 
           </tab-content>
           <tab-content title="Create token">
+            <div class="notification" v-show="notification">
+              {{notification}}
+            </div>
+            <Errors :errors="errors.deployment"/>
             Info about
             <ul>
               <li>Token to be created</li>
@@ -61,12 +65,10 @@
         name: null,
         symbol: null,
         totalSupply: null,
-        errors: {
-          network: {},
-          token: {}
-        },
+        errors: emptyErrors(),
         eth: [],
-        metamaskDetected: false
+        metamaskDetected: false,
+        notification: null
       }
     },
     computed: {
@@ -75,12 +77,13 @@
       }
     },
     methods: {
-      validate: function () {
+      validateToken: function () {
+        this.errors = emptyErrors()
         this.errors.token = _validate(this);
         return Object.keys(this.errors.token).length === 0
       },
       validateNetwork: function () {
-        this.errors.network = {};
+        this.errors = emptyErrors()
         if (this.eth.balance <= 0.01) this.errors.network.balance = 'Balance need to be higher then 0.01 ETH'
         if (!this.eth.network) this.errors.network.network = 'No ethereum network detected.'
         return Object.keys(this.errors.network).length === 0
@@ -88,13 +91,41 @@
 
       deploy: function () {
         const self = this;
+        self.notification = null;
+        self.result = null;
+        self.hasResult = false;
+        self.errors.deployment = {};
         web3.eth.getAccounts().then((accounts) =>
-          _deploy('1000000000', this.symbol, this.name, `${this.totalSupply}000000000000000000`, accounts[0])
-        ).then(function (contract) {
-          self.result = `Deployed to ${contract.options.address}`;
-          self.hasResult = true;
-        })
-
+          new web3.eth.Contract(contractPrototype.abi)
+            .deploy({
+              data: '0x' + contractPrototype.bytecode,
+              arguments: [self.symbol, self.name, accounts[0], `${self.totalSupply}000000000000000000`]
+            })
+            .send({
+                from: accounts[0],
+                gas: 4612388,
+                gasPrice: '1000000000'
+              }
+            )
+            .on('error', function (error) {
+              console.log(error.message)
+              self.errors.deployment = {
+                error: `${error.message.slice(0, error.message.indexOf('at e.'))}`
+              }
+            })
+            .on('transactionHash', function (transactionHash) {
+              self.notification = `Transaction ${transactionHash} sent to network`
+            })
+            .on('receipt', function (receipt) {
+              self.notification = receipt.contractAddress
+            })
+            .on('confirmation', function (confirmationNumber, receipt) {
+            })
+            .then(function (contract) {
+              self.result = `Deployed to ${contract.options.address}`;
+              self.hasResult = true;
+            })
+        )
       }
     },
     created: function () {
@@ -115,26 +146,14 @@
     return errors;
   }
 
-  function _deploy(gasPrice, symbol, name, totalSupply, owner) {
-
-    const tokenContract = new web3.eth.Contract(contractPrototype.abi);
-    return tokenContract
-      .deploy({
-        data: '0x' + contractPrototype.bytecode,
-        arguments: [symbol, name, owner, totalSupply]
-      })
-      .send({
-          from: owner,
-          gas: 4612388,
-          gasPrice
-        }
-      )
-      .then(function (deployedContract) {
-        return deployedContract;
-      })
-      .catch(console.log)
-
+  function emptyErrors() {
+    return {
+      network: {},
+      token: {},
+      deployment: {}
+    }
   }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
