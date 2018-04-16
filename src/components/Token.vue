@@ -26,11 +26,8 @@
           </tab-content>
           <tab-content title="Create token">
             <Errors :errors="errors.deployment"/>
-            Info about
-            <ul>
-              <li>Token to be created</li>
-              <li>gas price</li>
-            </ul>
+            <TokenSummary :data="{name, symbol, totalSupply}"/>
+            Gas price
 
             <Notifications :list="notifications"/>
 
@@ -50,11 +47,12 @@
   import NetworkAndAccount from './NetworkAndAccount';
   import Errors from './Errors';
   import Notifications from './Notifications';
+  import TokenSummary from './TokenSummary';
 
   export default {
     name: 'Token',
     components: {
-      Field, MetamaskDetector, NetworkAndAccount, Errors, Notifications
+      Field, MetamaskDetector, NetworkAndAccount, Errors, Notifications, TokenSummary
     },
     data() {
       return {
