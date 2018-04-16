@@ -27,8 +27,7 @@
           <tab-content title="Create token">
             <Errors :errors="errors.deployment"/>
             <TokenSummary :data="{name, symbol, totalSupply}"/>
-            Gas price
-
+            <GasPrice v-on:input="(val) => this.gasPrice = val" initialGas="1"/>
             <Notifications :list="notifications"/>
 
           </tab-content>
@@ -48,11 +47,18 @@
   import Errors from './Errors';
   import Notifications from './Notifications';
   import TokenSummary from './TokenSummary';
+  import GasPrice from './GasPrice';
 
   export default {
     name: 'Token',
     components: {
-      Field, MetamaskDetector, NetworkAndAccount, Errors, Notifications, TokenSummary
+      Field,
+      MetamaskDetector,
+      NetworkAndAccount,
+      Errors,
+      Notifications,
+      TokenSummary,
+      GasPrice,
     },
     data() {
       return {
@@ -62,7 +68,8 @@
         errors: emptyErrors(),
         eth: [],
         metamaskDetected: false,
-        notifications: []
+        notifications: [],
+        gasPrice: null,
       }
     },
     computed: {
@@ -78,7 +85,7 @@
       },
       validateNetwork: function () {
         this.errors = emptyErrors()
-        if (this.eth.balance <= 0.01) this.errors.network.balance = 'Balance need to be higher then 0.01 ETH'
+        if (this.eth.balance <= 0.001) this.errors.network.balance = 'Balance need to be higher then 0.001 ETH'
         if (!this.eth.network) this.errors.network.network = 'No ethereum network detected.'
         return Object.keys(this.errors.network).length === 0
       },
@@ -97,8 +104,8 @@
             })
             .send({
                 from: accounts[0],
-                gas: 4612388,
-                gasPrice: '1000000000'
+                gas: contractPrototype.gasLimit,
+                gasPrice: `${self.gasPrice}000000000`
               }
             )
             .on('error', function (error) {
