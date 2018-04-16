@@ -25,21 +25,18 @@
 
           </tab-content>
           <tab-content title="Create token">
-            <div class="notification" v-show="notification">
-              {{notification}}
-            </div>
             <Errors :errors="errors.deployment"/>
             Info about
             <ul>
               <li>Token to be created</li>
               <li>gas price</li>
             </ul>
+
+            <Notifications :list="notifications"/>
+
           </tab-content>
         </form-wizard>
 
-        <p v-if="hasResult">
-          {{result}}
-        </p>
       </div>
     </section>
   </div>
@@ -52,23 +49,22 @@
   import MetamaskDetector from './MetamaskDetector';
   import NetworkAndAccount from './NetworkAndAccount';
   import Errors from './Errors';
+  import Notifications from './Notifications';
 
   export default {
     name: 'Token',
     components: {
-      Field, MetamaskDetector, NetworkAndAccount, Errors
+      Field, MetamaskDetector, NetworkAndAccount, Errors, Notifications
     },
     data() {
       return {
-        hasResult: false,
-        result: null,
         name: null,
         symbol: null,
         totalSupply: null,
         errors: emptyErrors(),
         eth: [],
         metamaskDetected: false,
-        notification: null
+        notifications: []
       }
     },
     computed: {
@@ -91,7 +87,7 @@
 
       deploy: function () {
         const self = this;
-        self.notification = null;
+        self.notifications = [];
         self.result = null;
         self.hasResult = false;
         self.errors.deployment = {};
@@ -114,16 +110,16 @@
               }
             })
             .on('transactionHash', function (transactionHash) {
-              self.notification = `Transaction ${transactionHash} sent to network`
+              self.notifications.push(`Transaction ${transactionHash} sent to network`)
             })
             .on('receipt', function (receipt) {
-              self.notification = receipt.contractAddress
+              self.notifications.push(`Receipt received ${receipt.contractAddress}`)
             })
             .on('confirmation', function (confirmationNumber, receipt) {
+              self.notifications.push(`Confirmation received ${confirmationNumber} ${receipt.contractAddress}`)
             })
             .then(function (contract) {
-              self.result = `Deployed to ${contract.options.address}`;
-              self.hasResult = true;
+              self.notifications.push(`Deployed to ${contract.options.address}`)
             })
         )
       }
