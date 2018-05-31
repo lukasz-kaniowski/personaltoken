@@ -69,7 +69,7 @@
         eth: [],
         metamaskDetected: false,
         notifications: [],
-        gasPrice: null,
+        gasPrice: 1,
       }
     },
     computed: {
@@ -120,8 +120,8 @@
             .on('receipt', function (receipt) {
               self.notifications.push(`Receipt received ${receipt.contractAddress}`)
             })
-            .on('confirmation', function (confirmationNumber, receipt) {
-              self.notifications.push(`Confirmation received ${confirmationNumber} ${receipt.contractAddress}`)
+            .on('confirmation', function (confirmationNumber) {
+              self.notifications.push(`Confirmation received ${confirmationNumber}`)
             })
             .then(function (contract) {
               self.notifications.push(`Deployed to ${contract.options.address}`)

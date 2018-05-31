@@ -1,14 +1,19 @@
 <template>
   <div>
-    Network detector
-    <dl>
-      <dt>Network</dt>
-      <dd>{{network}}</dd>
-      <dt>Account</dt>
-      <dd>{{account}}</dd>
-      <dt>balance</dt>
-      <dd>{{balance}} ETH</dd>
-    </dl>
+    <div class="message">
+      <div class="message-body">
+        Account below will be used to create your token.
+        <br/>
+        You can change the account in metamask.
+      </div>
+    </div>
+
+
+    <ul class="box">
+      <li>Network: {{network}}</li>
+      <li>Account: {{account}}</li>
+      <li>Balance: {{balance}} ETH</li>
+    </ul>
   </div>
 </template>
 
