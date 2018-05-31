@@ -2,7 +2,8 @@
   <div>
     <section class="section">
       <div class="container">
-        <form-wizard finishButtonText="Create Token" class="box" @on-complete="deploy">
+        <form-wizard finishButtonText="Create Token" class="box" @on-complete="deploy"
+            title="Standard ERC20 token" subtitle="">
           <tab-content title="Metamask and Network" :before-change="validateNetwork">
             <Errors :errors="errors.network"/>
             <MetamaskDetector v-on:detected="(isDetected) => this.metamaskDetected = isDetected"/>
