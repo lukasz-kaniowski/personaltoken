@@ -1,6 +1,10 @@
-# my-personal-token
+# Personal token
 
 > A Vue.js project
+
+This is POC that allows to deploy erc20 token that rapresents i.e. your own brand/person to ethereum blockchain. Dont hasitate to use it here http://www.mypersonaltoken.com
+
+
 
 ## Build Setup
 
@@ -27,4 +31,4 @@ npm run e2e
 npm test
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
